@@ -6,10 +6,10 @@
 
 このとき、URLを以下のファイルの内容にする
 
-[dist.txt](/ray19901990/sorenari/master/bookmarklet/dist.txt)
+[dist.txt](dist.txt)
 
 ソレナリの戦闘結果ページで追加したブックマークをクリックすると、以下のようになる
 
-<img src="img/capture.gif" />
+<video src="capture.mp4" controls></video>
 
 ※Chromeで動作確認済み
