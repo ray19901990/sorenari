@@ -10,6 +10,6 @@
 
 ソレナリの戦闘結果ページで追加したブックマークをクリックすると、以下のようになる
 
-<video src="capture.mp4" controls></video>
+<img src="capture.gif" />
 
 ※Chromeで動作確認済み
