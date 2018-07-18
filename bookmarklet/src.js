@@ -37,10 +37,12 @@ $(function () {
             set_status();
             reset_eff(/*same_color=*/true);
             log = logs.split("\n");
+            var chain_act_flg = 0;
             for (var i = 0; i < log.length; i++) {
                 log_text = log[i];
                 // console.log(log_text);
-                if (i == 1) {
+                if (i == 1 || chain_act_flg == 1) {
+                    chain_act_flg = 0;
                     match = log_text.match(/^(.*)の([^の]*?)$/);
                     if (match) {
                         chara_eff(match[1], 'skill', match[2]);
@@ -53,6 +55,9 @@ $(function () {
                     if (match) {
                         chara_eff(match[1], 'heal');
                     }
+                }
+                if(log_text == '連続行動'){
+                    chain_act_flg = 1;
                 }
                 match = log_text.match(/^(.*?)は戦闘を離脱$/);
                 if (match) {
@@ -73,6 +78,14 @@ $(function () {
                 match = log_text.match(/^(.*?)の小ダメージを回復$/);
                 if (match) {
                     chara_eff(match[1], 'dmg_S');
+                }
+                match = log_text.match(/^(.*?)の中ダメージを回復$/);
+                if (match) {
+                    chara_eff(match[1], 'dmg_M');
+                }
+                match = log_text.match(/^(.*?)の大ダメージを回復$/);
+                if (match) {
+                    chara_eff(match[1], 'dmg_L');
                 }
                 match = log_text.match(/^(.*?)の中ダメージを軽減$/);
                 if (match) {
@@ -171,7 +184,9 @@ $(function () {
                 }
                 if (type == 'skill') {
                     $(this).css('background-color', '#ffffdd');
-                    $(this).find('.nameInBox').after('<div class="act_name" style="float: right; margin-top: -20px;">' + act_name + '</div>');
+                    $(this).find('.nameInBox').after('<div class="act_name" style="'+
+                    'float: right; top: -20px; background-color: white; z-index: 1; position: relative; padding: 2px 5px;'+
+                    '">' + act_name + '</div>');
                 }
                 if (type == 'dmg_S') {
                     $(this).find('.statuses').children().eq(2).css('width', '50px');
