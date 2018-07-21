@@ -1,9 +1,36 @@
 $(function () {
 
     var type = 'turn';
+    var stop = false;
 
-    setInterval(tick, 1500);
+    var tick_interval = 1500;
+    var tick_id = setInterval(tick, tick_interval);
     setInterval(anime, 150);
+
+    $('#bodybox').children().eq(1).append('<span id="msg"></span>');
+
+    $(window).keydown(function (e) {
+        if (e.keyCode == 32) {
+            stop = !stop;
+        }
+        if (e.keyCode == 38) {
+            tick_interval += 500;
+            window.clearInterval(tick_id);
+            tick_id = setInterval(tick, tick_interval);
+        }
+        if (e.keyCode == 40) {
+            if (tick_interval > 500) { tick_interval -= 500; }
+            window.clearInterval(tick_id);
+            tick_id = setInterval(tick, tick_interval);
+        }
+        var msg = '';
+        if (stop) {
+            msg += ' 一時停止中';
+        }
+        msg += ' 更新間隔：' + tick_interval;
+        $("#msg").text(msg);
+        return false;
+    });
 
     function anime() {
         var bodybox = $('#bodybox');
@@ -14,6 +41,7 @@ $(function () {
     }
 
     function tick() {
+        if (stop) { return; }
         var bodybox = $('#bodybox');
         var obj = bodybox.children().eq(3);
         reset_eff();
@@ -56,7 +84,7 @@ $(function () {
                         chara_eff(match[1], 'heal');
                     }
                 }
-                if(log_text == '連続行動'){
+                if (log_text == '連続行動') {
                     chain_act_flg = 1;
                 }
                 match = log_text.match(/^(.*?)は戦闘を離脱$/);
@@ -184,9 +212,9 @@ $(function () {
                 }
                 if (type == 'skill') {
                     $(this).css('background-color', '#ffffdd');
-                    $(this).find('.nameInBox').after('<div class="act_name" style="'+
-                    'float: right; top: -20px; background-color: white; z-index: 1; position: relative; padding: 2px 5px;'+
-                    '">' + act_name + '</div>');
+                    $(this).find('.nameInBox').after('<div class="act_name" style="' +
+                        'float: right; top: -20px; background-color: white; z-index: 1; position: relative; padding: 2px 5px;' +
+                        '">' + act_name + '</div>');
                 }
                 if (type == 'dmg_S') {
                     $(this).find('.statuses').children().eq(2).css('width', '50px');
