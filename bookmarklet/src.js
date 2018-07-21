@@ -10,6 +10,9 @@ $(function () {
     $('#bodybox').children().eq(1).append('<span id="msg"></span>');
 
     $(window).keydown(function (e) {
+        if (e.keyCode == 17 && stop) {
+            tick(/*nonstop=*/true);
+        }
         if (e.keyCode == 32) {
             stop = !stop;
         }
@@ -40,8 +43,8 @@ $(function () {
             .animate({ 'marginLeft': '5px' }, 75);
     }
 
-    function tick() {
-        if (stop) { return; }
+    function tick(nonstop) {
+        if (stop && !nonstop) { return; }
         var bodybox = $('#bodybox');
         var obj = bodybox.children().eq(3);
         reset_eff();
